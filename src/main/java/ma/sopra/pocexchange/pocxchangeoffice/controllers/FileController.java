@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import ma.sopra.pocexchange.pocxchangeoffice.business.FileStorageService;
+import ma.sopra.pocexchange.pocxchangeoffice.business.XmlXsdSAXValidatorService;
 import ma.sopra.pocexchange.pocxchangeoffice.business.XmlXsdValidatorService;
 import ma.sopra.pocexchange.pocxchangeoffice.entities.Fichier;
 import ma.sopra.pocexchange.pocxchangeoffice.entities.ResponseMessage;
@@ -38,6 +39,8 @@ public class FileController{
     @Autowired
     XmlXsdValidatorService xmlXsdValidatorService ;
 
+    @Autowired
+    XmlXsdSAXValidatorService xmlXsdSAXValidatorService;
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("xmlfile") MultipartFile xmlfile,@RequestParam("xsdfile")MultipartFile xsdFile) {
         System.out.println("uploaading");
@@ -48,7 +51,8 @@ public class FileController{
             xsdFilePath = storageService.save(xmlfile);
             message = "Uploaded the files successfully: " + xmlfile.getOriginalFilename()+" & "+xsdFile.getOriginalFilename();
             System.out.println(message);
-            System.out.println(xmlXsdValidatorService.validateXmlAgainstXsd(xmlFilePath, xsdFilePath));
+            System.out.println(xmlXsdValidatorService.validateXmlAgainstXsd(xsdFilePath, xmlFilePath));
+//            System.out.println(xmlXsdSAXValidatorService.xmlXsdSAXvalidator(xmlFilePath,xsdFilePath));
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
             message = "Could not upload the file: " + xmlfile.getOriginalFilename() + " & " +xsdFile.getOriginalFilename()+ "!";
