@@ -8,8 +8,12 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-@AllArgsConstructor
 public class ResponseMessage {
     private String message;
 
+	public ResponseMessage(String message) {
+		super();
+		this.message = message;
+	}
+   
 }
