@@ -36,29 +36,28 @@ public class FileController{
     Fichier xsdFichier;
     @Autowired
     FileStorageService storageService;
-//    @Autowired
-//    XmlXsdValidatorService xmlXsdValidatorService ;
+  
+    
     @Autowired
-    XmlXsdDomValidatorService xmlXsdDomValidatorService;
+    XmlXsdDomValidatorService xmlXsdDOMValidatorService;
 
     @PostMapping("/upload")
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("xmlfile") MultipartFile xmlfile,@RequestParam("xsdfile")MultipartFile xsdFile) {
-        System.out.println("uploaading");
+    public ResponseEntity<String> uploadFile(@RequestParam("xmlfile") MultipartFile xmlfile,@RequestParam("xsdfile")MultipartFile xsdFile) {
+//        System.out.println("uploaading");
         String message = "", xmlFilePath, xsdFilePath;
         try {
 
             xmlFilePath = storageService.save(xsdFile);
             xsdFilePath = storageService.save(xmlfile);
             message = "Uploaded the files successfully: " + xmlfile.getOriginalFilename()+" & "+xsdFile.getOriginalFilename();
-            System.out.println(message);
-            System.out.println(xmlXsdDomValidatorService.xmlXsdDomValidator(xmlFilePath, xsdFilePath));
-//            System.out.println(xmlXsdValidatorService.validateXmlAgainstXsd(xsdFilePath, xmlFilePath));
-//            System.out.println(xmlXsdSAXValidatorService.xmlXsdSAXvalidator(xmlFilePath,xsdFilePath));
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-        } catch (Exception e) {
-            message = "Could not upload the file: " + xmlfile.getOriginalFilename() + " & " +xsdFile.getOriginalFilename()+ "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-        }
+//            System.out.println("Tfo");
+//          System.out.println(xmlXsdValidatorService.validateXmlAgainstXsd(xsdFilePath, xmlFilePath));
+          System.out.println(xmlXsdDOMValidatorService.xmlXsdDomValidator(xsdFilePath,xmlFilePath));
+          return ResponseEntity.status(HttpStatus.OK).body(message);
+      } catch (Exception e) {
+          message = "Could not upload the file: " + xmlfile.getOriginalFilename() + " & " +xsdFile.getOriginalFilename()+ "!";
+          return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+      }
 
     }
 
