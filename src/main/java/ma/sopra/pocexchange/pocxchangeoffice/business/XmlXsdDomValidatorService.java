@@ -3,12 +3,16 @@ package ma.sopra.pocexchange.pocxchangeoffice.business;
 import java.io.File;
 import java.io.IOException;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,27 +24,53 @@ import ma.sopra.pocexchange.pocxchangeoffice.exceptions.SimpleErrorHandler;
 
 @Service
 public class XmlXsdDomValidatorService {
-public boolean xmlXsdDomValidator(String xmlPath,String xsdPath) {
-		String xml = new File(xmlPath).getPath();
+    public boolean xmlXsdDomValidator(String xmlPath, String xsdPath) {
 
-	
-	try {
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		factory.setValidating(true);
-		factory.setNamespaceAware(true);
-		SchemaFactory schemaFactory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
-		factory.setSchema(schemaFactory.newSchema(new Source[] {new StreamSource(new File(xsdPath))}));
-		DocumentBuilder builder= factory.newDocumentBuilder();
-		builder.setErrorHandler(new SimpleErrorHandler());
-		Document document = builder.parse(new InputSource(xml));
+        Schema schema = loadSchema(xsdPath);
+        Document documentt = parseXmlDom(xmlPath);
+        return validateXml(schema, documentt);
 
+    }
 
-	} catch (SAXException |ParserConfigurationException | IOException e) {
-        System.out.println("Exception: "+e.getMessage());
-		return false;
-	}
-	return true;
-}
+    private boolean validateXml(Schema schema, Document document) {
+        try {
+            // creating a Validator instance
+            Validator validator = schema.newValidator();
 
+            // validating the document against the schema
+            validator.validate(new DOMSource(document));
 
+        } catch (Exception e) {
+            // catching all validation exceptions
+            System.out.println();
+            System.out.println(e.toString());
+            return false;
+        }
+        return true;
+    }
+
+    private Schema loadSchema(String name) {
+        Schema schema = null;
+        try {
+            String language = XMLConstants.W3C_XML_SCHEMA_NS_URI;
+            SchemaFactory factory = SchemaFactory.newInstance(language);
+            schema = factory.newSchema(new File(name));
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return schema;
+    }
+
+    private Document parseXmlDom(String name) {
+        Document document = null;
+        try {
+            DocumentBuilderFactory factory
+                    = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            document = builder.parse(new File(name));
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return document;
+    }
 }
