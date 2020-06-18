@@ -43,15 +43,12 @@ public class FileController{
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("xmlfile") MultipartFile xmlfile,@RequestParam("xsdfile")MultipartFile xsdFile) {
-//        System.out.println("uploaading");
         String message = "", xmlFilePath, xsdFilePath;
         try {
 
             xmlFilePath = storageService.save(xsdFile);
             xsdFilePath = storageService.save(xmlfile);
             message = "Uploaded the files successfully: " + xmlfile.getOriginalFilename()+" & "+xsdFile.getOriginalFilename();
-//            System.out.println("Tfo");
-//          System.out.println(xmlXsdValidatorService.validateXmlAgainstXsd(xsdFilePath, xmlFilePath));
           System.out.println(xmlXsdDOMValidatorService.xmlXsdDomValidator(xsdFilePath,xmlFilePath));
           return ResponseEntity.status(HttpStatus.OK).body(message);
       } catch (Exception e) {

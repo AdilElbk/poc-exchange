@@ -73,8 +73,6 @@ public class XmlXsdDomValidatorService {
         }
         return document;
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 481c91777596e2e132b9a4c130bdc18e4e604720
+
+
