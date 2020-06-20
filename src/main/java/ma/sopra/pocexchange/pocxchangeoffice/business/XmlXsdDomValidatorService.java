@@ -29,7 +29,7 @@ public class XmlXsdDomValidatorService {
             // creating a Validator instance
             Validator validator = schema.newValidator();
             // validating the document against the schema
-            validator.setErrorHandler(new ErrorsHandlersService());
+//            validator.setErrorHandler(new ErrorsHandlersService());
             validator.validate(new DOMSource(document));
             
         } catch (Exception e) {

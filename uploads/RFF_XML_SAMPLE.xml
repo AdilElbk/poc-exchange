@@ -14,7 +14,7 @@
     </Identification_correspondant>
     <identification_client>
       <nom_rsociale />
-      <qualite />
+      <qualite/>
       <type_identification />
       <nidentification />
       <centre_rc />

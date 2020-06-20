@@ -2,18 +2,15 @@ package ma.sopra.pocexchange.pocxchangeoffice.business;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 
 import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 
@@ -27,20 +24,23 @@ public class XmlXsdSaxValidatorService {
     }
 
     private boolean validateXml(Schema schema, String document) {
+
         try {
             // creating a Validator instance
             Validator validator = schema.newValidator();
             // validating the document against the schema
-//            validator.setErrorHandler(new ErrorsHandlersService());
             SAXSource source = new SAXSource(new InputSource(new FileInputStream(document)));
+           validator.setErrorHandler(new ErrorsHandlersService());
             validator.validate(source);
+            ArrayList<String> errors = ((ErrorsHandlersService)validator.getErrorHandler()).getErrorList();
+            
+            if(!errors.isEmpty()) {
+            	throw new Exception();
+            }
             
         } catch (Exception e) {
             // catching all validation exceptions
-        	
-            System.out.println();
-            System.out.println(e.toString());
-            
+
             return false;
         }
         return true;
