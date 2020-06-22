@@ -41,7 +41,7 @@ public class ErrorsHandlersService implements ErrorHandler{
 	@Override
 	public void error(SAXParseException exception) throws SAXException {
 		errorList.add(new XmlValidationError(exception.getLineNumber(),exception.getColumnNumber(),exception.getMessage()));
-		printInfo(exception);
+		//printInfo(exception);
 
 	}
 }
