@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<flux_financiers>
+  <flux_financier>
+    <Identification_ligne>
+      <code_ligne />
+    </Identification_ligne>
+    <Identification_agence>
+      <code_banque />
+      <code_localite />
+      <numero_guichet />
+    </Identification_agence>
+    <Identification_correspondant>
+      <code_bic_swift />
+    </Identification_correspondant>
+    <identification_client>
+      <nom_rsociale />
+      <qualite/>
+      <type_identification />
+      <nidentification />
+      <centre_rc />
+      <rc />
+      <pays />
+      <ville />
+      <adresse />
+    </identification_client>
+    <identification_partenaire_client>
+      <nom_rsociale_partenaire />
+      <pays_partenaire />
+    </identification_partenaire_client>
+    <information_operation>
+      <sens_operation />
+      <categorie_formule />
+      <code_noperation />
+      <pprovenance_destination />
+    </information_operation>
+    <execution_operation>
+      <code_devise />
+      <montant_devise />
+      <cours_applique />
+      <montant_dirhams />
+      <date_excecution />
+    </execution_operation>
+    <refercence_operation>
+      <numero_titre_importation />
+      <numero_autorisation_oc />
+      <numero_formule />
+      <numero_dossier />
+    </refercence_operation>
+    <information_supplementaire>
+      <information_operation />
+      <champ_supp1 />
+      <champ_supp2 />
+      <champ_supp3 />
+      <champ_supp4 />
+      <champ_supp5 />
+    </information_supplementaire>
+  </flux_financier>
+</flux_financiers>

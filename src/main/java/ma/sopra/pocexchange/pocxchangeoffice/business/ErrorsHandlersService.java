@@ -10,11 +10,13 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import ma.sopra.pocexchange.pocxchangeoffice.entities.XmlValidationError;
+
 @Service
 public class ErrorsHandlersService implements ErrorHandler{
 
-	private ArrayList<String> errorList = new ArrayList<String>();
-	public ArrayList<String> getErrorList() {
+	private ArrayList<XmlValidationError> errorList = new ArrayList<XmlValidationError>();
+	public ArrayList<XmlValidationError> getErrorList() {
 		return errorList;
 	}
 
@@ -38,7 +40,7 @@ public class ErrorsHandlersService implements ErrorHandler{
 
 	@Override
 	public void error(SAXParseException exception) throws SAXException {
-		errorList.add(exception.toString());
+		errorList.add(new XmlValidationError(exception.getLineNumber(),exception.getColumnNumber(),exception.getMessage()));
 		printInfo(exception);
 
 	}

@@ -13,8 +13,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import org.xml.sax.SAXParseException;
 
 
-@Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class ExceptionInterceptor extends ResponseEntityExceptionHandler{
-	
+	@ExceptionHandler(ExceptionErrorMessage.class)
+	public ResponseEntity<Object> handleParsingExceptions(ExceptionErrorMessage parsingException){
+
+		ExceptionErrorMessageSchema exceptionSchema = new ExceptionErrorMessageSchema(parsingException.isValid(),parsingException.getErrors());
+
+		return new ResponseEntity<Object>(exceptionSchema,HttpStatus.INTERNAL_SERVER_ERROR);
+	}	
 }

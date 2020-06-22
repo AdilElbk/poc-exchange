@@ -7,37 +7,35 @@ import org.xml.sax.SAXParseException;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import ma.sopra.pocexchange.pocxchangeoffice.entities.XmlValidationError;
 
 
-@Data
-@Getter
-@Setter
 public class ExceptionErrorMessage extends RuntimeException{
 	private boolean isValid;
-	private ArrayList<String> errors;
-	
-	
-	
-	public ExceptionErrorMessage() {
-	}
-	public ExceptionErrorMessage(boolean isValid, ArrayList<String> errors) {
-		this.isValid = isValid;
-		this.errors = errors;
-	}
+	private ArrayList<XmlValidationError> errors;
 	public boolean isValid() {
 		return isValid;
 	}
 	public void setValid(boolean isValid) {
 		this.isValid = isValid;
 	}
-	public ArrayList<String> getErrors() {
+	public ArrayList<XmlValidationError> getErrors() {
 		return errors;
 	}
-	public void setErrors(ArrayList<String> errors) {
+	public void setErrors(ArrayList<XmlValidationError> errors) {
 		this.errors = errors;
 	}
-
+	public ExceptionErrorMessage(boolean isValid, ArrayList<XmlValidationError> errors) {
+		super();
+		this.isValid = isValid;
+		this.errors = errors;
+	}
+	public ExceptionErrorMessage(String message) {
+		super(message);
+	}
 	
 	
+	
+		
 
 }
