@@ -12,35 +12,34 @@ import org.xml.sax.helpers.DefaultHandler;
 
 @Service
 public class ErrorsHandlersService implements ErrorHandler{
-	
+
 	private ArrayList<String> errorList = new ArrayList<String>();
-	
-	
-	  public ArrayList<String> getErrorList() {
+	public ArrayList<String> getErrorList() {
 		return errorList;
 	}
 
 	public void warning( SAXParseException e ) throws SAXException {
-	      System.out.println(e.toString());
-	    }
-	
-public void fatalError( SAXParseException e )
-	       throws SAXException {
-//	      System.out.println(e.toString());
-	      throw e;
-	    }
+		System.out.println(e.toString());
+	}
 
-public void printInfo(SAXParseException e) {
-	
-	System.out.println("Column number : "+e.getColumnNumber());
-	System.out.println("Message : "+e.getMessage());
-	System.out.println("Element : "+e.getLocalizedMessage());
-}
+	public void fatalError( SAXParseException e )
+			throws SAXException {
+		//	      System.out.println(e.toString());
+		throw e;
+	}
 
-@Override
-public void error(SAXParseException exception) throws SAXException {
-    errorList.add(exception.toString());
-	printInfo(exception);
-	
-}
+	public void printInfo(SAXParseException e) {
+		
+		System.out.println("Column number : "+e.getColumnNumber());
+		System.out.println("Line number : "+e.getLineNumber());
+		System.out.println("Message : "+e.getMessage());
+		
+	}
+
+	@Override
+	public void error(SAXParseException exception) throws SAXException {
+		errorList.add(exception.toString());
+		printInfo(exception);
+
+	}
 }
